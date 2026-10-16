@@ -1,0 +1,14 @@
+import { FlatList, View, Text } from 'react-native';
+import { ANGEL } from '@/data/angel';
+import { DREAMS } from '@/data/dreams';
+import { Card, Disclaimer, s } from '@/lib/ui';
+import { useFavs } from '@/lib/fav';
+export default function Favs() {
+  const { favs, toggle } = useFavs();
+  const items = [...ANGEL.filter(a => favs.includes('a'+a.n)).map(a => ({ id: 'a'+a.n, tag: a.n, title: a.title, text: a.text })),
+    ...DREAMS.filter(d => favs.includes('d'+d.t)).map(d => ({ id: 'd'+d.t, tag: undefined, title: d.t, text: d.text }))];
+  return <View style={s.screen}><FlatList data={items} keyExtractor={i => i.id}
+    ListEmptyComponent={<Text style={s.text}>Tap ☆ on any number or dream to save it here.</Text>}
+    renderItem={({ item }) => <Card tag={item.tag} title={item.title} text={item.text} fav onFav={() => toggle(item.id)} />}
+    ListFooterComponent={<Disclaimer />} /></View>;
+}
