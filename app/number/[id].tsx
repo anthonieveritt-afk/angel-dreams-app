@@ -1,12 +1,11 @@
 import { useLocalSearchParams } from 'expo-router';
 import { Text } from 'react-native';
-import { findNumber, numberDetail } from '@/data/detail';
+import { getNumber, isNum } from '@/data/angel';
 import { Detail } from '@/lib/detail';
 export default function N() {
-  const { id } = useLocalSearchParams<{ id: string }>(); const a = findNumber(String(id));
-  if (!a) return <Text>Not found</Text>;
-  const d = numberDetail(a);
+  const { id } = useLocalSearchParams<{ id: string }>(); const n = String(id);
+  if (!isNum(n)) return <Text>Not found</Text>;
+  const a = getNumber(n);
   return <Detail header={`Angel number ${a.n}`} favId={'a' + a.n} tag={a.n} title={a.title}
-    sections={[['Overview', d.overview], ['Love & relationships', d.love], ['Career & money', d.career], ['Spiritual growth', d.spirit], ['What to do next', d.next]]}
-    related={d.related.map(n => ({ label: n, href: `/number/${n}` }))} />;
+    sections={[['In brief', a.intro], ...a.sections]} related={a.related.map(r => ({ label: r, href: `/number/${r}` }))} />;
 }
