@@ -1,3 +1,5 @@
+import { router } from 'expo-router';
+import { slug } from '@/data/detail';
 import { useState } from 'react';
 import { SectionList, View, Text } from 'react-native';
 import { DREAMS } from '@/data/dreams';
@@ -11,7 +13,7 @@ export default function Dreams() {
     <Search value={q} onChange={setQ} placeholder="Search dreams, e.g. falling" />
     <SectionList sections={sections} keyExtractor={d => d.t}
       renderSectionHeader={({ section }) => <Text style={s.h}>{section.title}</Text>}
-      renderItem={({ item }) => <Card title={item.t} text={item.text} fav={favs.includes('d'+item.t)} onFav={() => toggle('d'+item.t)} />}
+      renderItem={({ item }) => <Card title={item.t} text={item.text} fav={favs.includes('d'+item.t)} onFav={() => toggle('d'+item.t)} onPress={() => router.push(`/dream/${slug(item.t)}`)} />}
       ListEmptyComponent={<Text style={s.text}>Nothing found yet.</Text>}
       ListFooterComponent={<Disclaimer />} stickySectionHeadersEnabled={false} />
   </View>;
